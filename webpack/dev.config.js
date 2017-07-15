@@ -4,14 +4,17 @@ var path = require('path');
 var webpack = require('webpack');
 var precss = require('precss');
 var autoprefixer = require('autoprefixer');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var assetsPath = path.resolve(__dirname, '../static/dist');
+var srcPath = path.resolve(__dirname, '../src');
 var host = (process.env.HOST || 'localhost');
 var port = (+process.env.PORT + 1) || 3001;
 
 // https://github.com/halt-hammerzeit/webpack-isomorphic-tools
 var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
-var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack-isomorphic-tools'));
+var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack-isomorphic-tools'))
+.development();
 
 var babelrc = fs.readFileSync('./.babelrc');
 var babelrcObject = {};
@@ -80,31 +83,109 @@ module.exports = {
     publicPath: 'http://' + host + ':' + port + '/dist/'
   },
   module: {
-    loaders: [
-      { test: /\.jsx?$/, exclude: /node_modules/, loaders: ['babel?' + JSON.stringify(babelLoaderQuery), 'eslint-loader']},
-      { test: /\.json$/, loader: 'json-loader' },
-      { test: /\.less$/, loader: 'style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!postcss-loader!less?outputStyle=expanded&sourceMap' },
-      { test: /\.scss$/, loader: 'style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!postcss-loader!sass?outputStyle=expanded&sourceMap' },
-      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff" },
-      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff" },
-      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream" },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml" },
-      { test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240' }
+    rules: [
+      { test: /\.jsx?$/, exclude: /node_modules/, use: [
+        {
+          loader: 'babel-loader',
+          options: babelLoaderQuery
+        },
+        // {loader: 'eslint-loader'}
+        // 'babel?' + JSON.stringify(babelLoaderQuery), 'eslint-loader'
+      ]},
+      { test: /\.less$/, use: [
+        {loader: 'style-loader'},
+        {loader: 'css-loader', options: {
+          modules: true,
+          importLoaders: 2,
+          sourceMap: true,
+          localIdentName: '[local]___[hash:base64:5]',
+        }},
+        {
+          loader: 'postcss-loader'
+        },
+        {loader: 'less-loader', options: {
+          outputStyle: 'expanded',
+          sourceMap: true
+        }},
+        // 'style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!postcss-loader!less?outputStyle=expanded&sourceMap'
+      ]},
+      { test: /\.scss$/,
+        use: [
+          {loader: 'style-loader'},
+          {loader: 'css-loader', options: {
+            modules: true,
+            importLoaders: 2,
+            sourceMap: true,
+            localIdentName: '[local]___[hash:base64:5]',
+          }},
+          {
+            loader: 'postcss-loader'
+          },
+          {loader: 'sass-loader', options: {
+            outputStyle: 'expanded',
+            sourceMap: true
+          }},
+        ]
+      },//'style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!postcss-loader!sass?outputStyle=expanded&sourceMap'
+      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, use: [
+        {loader: 'url-loader', options: {
+          limit: 10000,
+          mimetype: 'application/font-woff'
+        }}
+      ]},
+        //"url?limit=10000&mimetype=application/font-woff"
+      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, use: [
+        {loader: 'url-loader', options: {
+          limit: 10000,
+          mimetype: 'application/font-woff'
+        }}
+      ]},
+      //"url?limit=10000&mimetype=application/font-woff"
+      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, use: [
+        {loader: 'url-loader', options: {
+          limit: 10000,
+          mimetype: 'application/octet-stream'
+        }}
+      ]},
+        //"url?limit=10000&mimetype=application/octet-stream"
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, use: [{loader: 'file-loader'}] },
+      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, use: [{
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          mimetype: 'image/svg+xml'
+        }
+      }]},
+        //"url?limit=10000&mimetype=image/svg+xml"
+      { test: webpackIsomorphicToolsPlugin.regular_expression('images'), use: [
+        {loader: 'url-loader', options: {limit: 10240}}
+      ]}
+      //'url-loader?limit=10240'
     ]
   },
-  postcss: function () {
-    return [precss, autoprefixer];
-  },
-  progress: true,
+  // postcss: function () {
+  //   return [precss, autoprefixer];
+  // },
+  // progress: true,
   resolve: {
-    modulesDirectories: [
+    modules: [
       'src',
       'node_modules'
     ],
-    extensions: ['', '.json', '.js', '.jsx']
+    //https://webpack.js.org/guides/migrating/#resolve-extensions
+    extensions: [/*'', */'.json', '.js', '.jsx']
   },
   plugins: [
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        context: srcPath,
+        postcss: function() {
+          return {
+            plugins: [precss, autoprefixer]
+          };
+        }
+      }
+    }),
     // hot reload
     new webpack.HotModuleReplacementPlugin(),
     new webpack.IgnorePlugin(/webpack-stats\.json$/),
@@ -114,6 +195,10 @@ module.exports = {
       __DEVELOPMENT__: true,
       __DEVTOOLS__: true  // <-------- DISABLE redux-devtools HERE
     }),
-    webpackIsomorphicToolsPlugin.development()
+    webpackIsomorphicToolsPlugin.development(),
   ]
 };
+
+// postcss: function () {
+//   return [precss, autoprefixer];
+// },

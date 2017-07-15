@@ -4,12 +4,14 @@ import {
   App,
   NotFound,
   UserPage,
-  RepoPage
+  RepoPage,
+  HomePage
 } from 'containers';
 
 export default () => {
   const routes = (
-    <Switch path="/" component={App}>
+    <Switch>
+      <Route exact path="/" component={HomePage} />
       <Route path="/:login" component={UserPage} />
       <Route path="/:login/:name" component={RepoPage} />
       <Route path="/404" component={NotFound} />

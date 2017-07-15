@@ -4,6 +4,15 @@ import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
 import {Explore} from 'components';
 
+
+import {Route, Switch} from 'react-router';
+import {
+  NotFound,
+  UserPage,
+  RepoPage,
+  HomePage
+} from 'containers';
+
 import {
   navigate,
   updateRouterState,
@@ -35,22 +44,22 @@ class App extends Component {
   }
 
   componentWillMount() {
-    this.props.updateRouterState({
-      pathname: this.props.location.pathname,
-      params: this.props.params
-    });
+    // this.props.updateRouterState({
+    //   pathname: this.props.location.pathname,
+    //   params: this.props.params
+    // });
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.errorMessage) {
-      // handle error here
-    }
-    if (this.props.location.pathname !== nextProps.location.pathname) {
-      this.props.updateRouterState({
-        pathname: nextProps.location.pathname,
-        params: nextProps.params
-      });
-    }
+    // if (nextProps.errorMessage) {
+    //   // handle error here
+    // }
+    // if (this.props.location.pathname !== nextProps.location.pathname) {
+    //   this.props.updateRouterState({
+    //     pathname: nextProps.location.pathname,
+    //     params: nextProps.params
+    //   });
+    // }
   }
 
   handleDismissClick(e) {
@@ -70,9 +79,15 @@ class App extends Component {
           title="React Universal Saga"
           meta={[{property: 'og:site_name', content: 'React Universal Saga'}]}
         />
-        <Explore value={inputValue} onChange={this.handleChange} />
+        App <hr />
         <div className={styles.content}>
-          {children}
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route path="/:login" component={UserPage} />
+            <Route path="/:login/:name" component={RepoPage} />
+            <Route path="/404" component={NotFound} />
+            <Route path="*" component={NotFound} />
+          </Switch>
         </div>
       </div>
     );
@@ -89,7 +104,7 @@ class App extends Component {
 function mapStateToProps(state) {
   return {
     errorMessage: state.errorMessage,
-    inputValue: state.router.pathname.substring(1)
+    // inputValue: state.router.pathname.substring(1)
   };
 }
 

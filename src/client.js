@@ -4,6 +4,8 @@ import GoogleAnalytics from 'react-ga';
 import {BrowserRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
 
+import App from 'containers/App';
+
 import rootSaga from './sagas';
 import getRoutes from './routes';
 // import {history} from './services';
@@ -20,7 +22,7 @@ store.runSaga(rootSaga);
 render(
   <Provider store={store}>
     <BrowserRouter>
-      {getRoutes()}
+      <App />
     </BrowserRouter>
   </Provider>,
   dest

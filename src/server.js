@@ -9,6 +9,7 @@ import path from 'path';
 import url from 'url';
 import {Provider} from 'react-redux';
 import {StaticRouter, matchPath} from 'react-router';
+import App from 'containers/App';
 import config from './config';
 import configureStore from './store/configureStore';
 import Html from './helpers/Html';
@@ -60,7 +61,7 @@ app.use((req, res) => {
         location={req.url}
         context={context}
       >
-        {allRoutes}
+        <App />
       </StaticRouter>
     </Provider>
   );

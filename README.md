@@ -191,3 +191,4 @@ Kawi
 
 Some links that might be helpful
 https://reacttraining.com/react-router/web/guides/server-rendering
+https://medium.com/@ivanmontiel/changing-old-habits-in-react-router-4-8483ee5e087c React router v4
