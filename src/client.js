@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import GoogleAnalytics from 'react-ga';
+import { BrowserRouter } from 'react-router-dom';
 
 import { Root } from 'containers';
 import rootSaga from './sagas';
@@ -17,10 +18,11 @@ GoogleAnalytics.initialize(config.app.googleAnalytics.appId);
 store.runSaga(rootSaga);
 
 render(
-  <Root
-    store={store}
-    routes={getRoutes(store)}
-  />,
+  <Provider store={store}>
+    <BrowserRouter>
+      {getRoutes()}
+    </BrowserRouter>
+  </Provider>,
   dest
 );
 

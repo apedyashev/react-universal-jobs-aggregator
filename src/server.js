@@ -7,23 +7,22 @@ import http from 'http';
 import proxy from 'express-http-proxy';
 import path from 'path';
 import url from 'url';
-import { match, createMemoryHistory } from 'react-router';
 import _ from 'lodash';
-
+import { match, createMemoryHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import { StaticRouter, matchPath } from 'react-router'
-
+import { Root } from 'containers';
 import config from './config';
 import configureStore from './store/configureStore';
 import Html from './helpers/Html';
+import {extractRoutes} from './helpers/router';
 import getRoutes from './routes';
 import waitAll from './sagas/waitAll';
-import { Root } from 'containers';
 
 const app = new Express();
 const server = new http.Server(app);
 
-// disable `X-Powered-By` HTTP header
+// disable `X-Powered-By` HTTP header for better security
 app.disable('x-powered-by');
 
 app.use(compression());
@@ -56,6 +55,7 @@ app.use((req, res) => {
     return;
   }
 
+  // SSR
   const context = {};
   const rootComponent = (
     <Provider store={store}>
@@ -68,22 +68,8 @@ app.use((req, res) => {
     </Provider>
   );
 
-  const extractedRoutes = [];
-  function extractRoutes(routes) {
-    let r = routes;
-    if (_.isPlainObject(routes)) {
-      r = [routes];
-    }
-    _.forEach(r, (route) => {
-      extractedRoutes.push(route.props);
-
-      if (route.props.children) {
-        extractRoutes(route.props.children);
-      }
-    });
-  }
-  extractRoutes(allRoutes);
-
+  // get a current route and preload all the data for it
+  const extractedRoutes = extractRoutes(allRoutes);
   const filtered = [];
   extractedRoutes.forEach((route) => {
     const match = matchPath(req.url, {
@@ -91,12 +77,13 @@ app.use((req, res) => {
       exact: true,
       strict: false
     });
+    // ignore wildcard since it's usually used for 404 page
     if (match && (match.path !== '*')) {
       filtered.push({match, component: route.component});
     }
-  });//.map((route) => route.component);
+  });
 
-  console.log('filtered', filtered);
+  // extract proloaders for the route
   const preloaders = filtered
     .filter(({component}) => component && component.preload)
     .map(({match, component}) => component.preload(match.params, req))
@@ -104,21 +91,23 @@ app.use((req, res) => {
   const runTasks = store.runSaga(waitAll(preloaders));
   global.navigator = { userAgent: req.headers['user-agent'] };
 
+  // once saga is done with data loading, render the page and send it to the browser
   runTasks.done.then(() => {
     if (context.url) {
       res.redirect(context.url);
     } else {
       const htmlComponent = <Html assets={assets} component={rootComponent} store={store} />;
       const renderedDomString = ReactDOMServer.renderToString(htmlComponent);
-      // console.log('renderedDomString', renderedDomString);
       res.status(200).send(`<!doctype html>\n ${renderedDomString}`);
       store.close();
     }
   }).catch((e) => {
+    // TODO: use a 3rd party library for logging
     console.log(e.stack);
   });
 });
 
+// start the server
 if (config.port) {
   server.listen(config.port, (err) => {
     if (err) {

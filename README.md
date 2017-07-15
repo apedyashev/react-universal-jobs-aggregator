@@ -52,7 +52,7 @@ UPDATE: Checkout [react-universal-saga-modular](https://github.com/xkawi/react-u
 
 Core Concepts to learn if you are new to ReactJS and this repo:
 
-- Dumb Components (Component) 
+- Dumb Components (Component)
 - Smart Component (Container)
 - Actions - define available action types
 - Reducers - given previous state and an action, create a new state
@@ -91,15 +91,15 @@ Here is a suggested development workflow that works for me:
 
 2. Implement dump components + props (state and actions).
 	* Each component should define `.propTypes` for prop's validation, which will throw a warning if the container that uses it do not provides all the props that the component need.
-	
+
 3. Often, a container = a route page; a container is also where you import necessary components, actions and states (pass down to component) to form a single page.
 	* if a container wants to "pre-populate" data during server rendering process, assign `Container.preload` with sagas that fetches necessary data from the API server. (refer to `containers/App.js` for an example)
 
 4. Implement necessary Actions as you define needed containers and components (PS: this implementation is independent from previous steps). It often helps maintainability and readability if action methods are categorized into 2:
-    * Actions that manipulate store directly through reducers (e.g. `actions/index.js > createRequestTypes` method), often to update the state and trigger re-render the components. 
+    * Actions that manipulate store directly through reducers (e.g. `actions/index.js > createRequestTypes` method), often to update the state and trigger re-render the components.
     * "LOAD" or "TRIGGER" actions for starting a saga routine/daemon, often to make network call.
 
-5. Implement Reducers. As you implemented the actions, you will have better idea on how to modify the states for different actions. 
+5. Implement Reducers. As you implemented the actions, you will have better idea on how to modify the states for different actions.
 
 ### Using Redux DevTools
 
@@ -136,7 +136,7 @@ We also spit out the `redux` state into a global `window.__data` variable in the
 
 ### Server-side Data Fetching
 
-The [redux-saga](https://github.com/yelouafi/redux-saga) provides a mechanism for server-side data fetching from the actual backend API servers/services, when it reaches client-side (React) there is no need to do additional network call. You have to define the Sagas that a container need (refers to `containers/UserPage.js > UserPage.preload` for example) for server-side to fetch. PS: You have the flexibility to implement additional logic (e.g. handle authentication) when fetching data at server-side rendering stage, as it differs from client-side. 
+The [redux-saga](https://github.com/yelouafi/redux-saga) provides a mechanism for server-side data fetching from the actual backend API servers/services, when it reaches client-side (React) there is no need to do additional network call. You have to define the Sagas that a container need (refers to `containers/UserPage.js > UserPage.preload` for example) for server-side to fetch. PS: You have the flexibility to implement additional logic (e.g. handle authentication) when fetching data at server-side rendering stage, as it differs from client-side.
 
 ### Client Side
 
@@ -172,7 +172,7 @@ Then you set the `className` of your element to match one of the CSS classes in 
 
 ### Global Style Variables
 
-`react-universal-saga` support global style variables by defining the variable in `theme/style.scss`. Once defined, you can use in any scss file so long it is imported (refer to `RepoPage.scss` for example). 
+`react-universal-saga` support global style variables by defining the variable in `theme/style.scss`. Once defined, you can use in any scss file so long it is imported (refer to `RepoPage.scss` for example).
 
 ## Notable Alternatives
 
@@ -188,3 +188,6 @@ Any contribution is welcome.
 Cheers,
 
 Kawi
+
+Some links that might be helpful
+https://reacttraining.com/react-router/web/guides/server-rendering
