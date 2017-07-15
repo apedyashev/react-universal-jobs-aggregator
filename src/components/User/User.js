@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
-import { Link } from 'react-router-dom';
+import React, { Component} from 'react';
+import {PropTypes} from 'prop-types';
+import {Link} from 'react-router-dom';
 
 export default class User extends Component {
   render() {
-    const { login, avatarUrl, name } = this.props.user;
+    const {login, avatarUrl, name} = this.props.user;
 
     return (
       <div>

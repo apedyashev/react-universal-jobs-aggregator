@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
-import { Link } from 'react-router-dom';
+import React, { Component} from 'react';
+import {PropTypes} from 'prop-types';
+import {Link} from 'react-router-dom';
 
 export default class Repo extends Component {
   render() {
-    const { repo, owner } = this.props;
-    const { login } = owner;
-    const { name, description } = repo;
+    const {repo, owner} = this.props;
+    const {login} = owner;
+    const {name, description} = repo;
 
     return (
       <div>

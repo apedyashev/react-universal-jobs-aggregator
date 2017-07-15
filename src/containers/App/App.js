@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {PropTypes} from 'prop-types';
+import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
-import { Explore } from 'components';
+import {Explore} from 'components';
 
 import {
   navigate,
@@ -12,6 +12,23 @@ import {
 import styles from './App.scss'; // eslint-disable-line
 
 class App extends Component {
+  static propTypes = {
+    errorMessage: PropTypes.string,
+    inputValue: PropTypes.string.isRequired,
+    navigate: PropTypes.func.isRequired,
+    updateRouterState: PropTypes.func.isRequired,
+    resetErrorMessage: PropTypes.func.isRequired,
+    children: PropTypes.node,
+    location: PropTypes.shape({
+      pathname: PropTypes.string
+    }),
+    params: PropTypes.object,
+  };
+
+  static defaultProps = {
+    children: null,
+  };
+
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
@@ -46,34 +63,21 @@ class App extends Component {
   }
 
   render() {
-    const { children, inputValue } = this.props;
+    const {children, inputValue} = this.props;
     return (
       <div className={styles.app}>
         <Helmet
           title="React Universal Saga"
-          meta={[{ property: 'og:site_name', content: 'React Universal Saga' }]}
+          meta={[{property: 'og:site_name', content: 'React Universal Saga'}]}
         />
         <Explore value={inputValue} onChange={this.handleChange} />
         <div className={styles.content}>
           {children}
         </div>
       </div>
-      );
+    );
   }
 }
-
-App.propTypes = {
-  errorMessage: PropTypes.string,
-  inputValue: PropTypes.string.isRequired,
-  navigate: PropTypes.func.isRequired,
-  updateRouterState: PropTypes.func.isRequired,
-  resetErrorMessage: PropTypes.func.isRequired,
-  children: PropTypes.node,
-  location: PropTypes.shape({
-    pathname: PropTypes.string
-  }),
-  params: PropTypes.object
-};
 
 // function preload() {
 //   return [

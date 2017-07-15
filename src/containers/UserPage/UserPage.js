@@ -1,10 +1,10 @@
 import zip from 'lodash/zip';
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
-import { loadUserPage, loadMoreStarred } from '../../actions';
-import { loadUser, loadStarred } from '../../sagas';
-import { User, Repo, List } from 'components';
+import React, {Component} from 'react';
+import {PropTypes} from 'prop-types';
+import {connect} from 'react-redux';
+import {User, Repo, List} from 'components';
+import {loadUserPage, loadMoreStarred} from '../../actions';
+import {loadUser, loadStarred} from '../../sagas';
 
 class UserPage extends Component {
   constructor(props) {
@@ -32,13 +32,13 @@ class UserPage extends Component {
   }
 
   render() {
-    const { user, login } = this.props;
+    const {user, login} = this.props;
 
     if (!user) {
       return (<h1><i>Loading {login}’s profile...</i></h1>);
     }
 
-    const { starredRepos, starredRepoOwners, starredPagination } = this.props;
+    const {starredRepos, starredRepoOwners, starredPagination} = this.props;
     return (
       <div>
         <User user={user} />
@@ -51,7 +51,7 @@ class UserPage extends Component {
           {...starredPagination}
         />
       </div>
-      );
+    );
   }
 }
 
@@ -67,11 +67,11 @@ UserPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   console.log('state', ownProps.match.params.login);
-  const { login } = ownProps.match.params;
+  const {login} = ownProps.match.params;
   const {
     pagination: { starredByUser },
     entities: { users, repos }
-  } = state;
+ } = state;
 
   const starredPagination = starredByUser[login] || { ids: [] };
   const starredRepos = starredPagination.ids.map(id => repos[id]);
@@ -86,7 +86,7 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-function preload({ login }) {
+function preload({login}) {
   return [
     [loadUser, login, []],
     [loadStarred, login]

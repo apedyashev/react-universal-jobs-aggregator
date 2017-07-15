@@ -1,8 +1,8 @@
 import has from 'lodash/has';
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
-import { Provider } from 'react-redux';
-import { Router, RouterContext } from 'react-router';
+import React, { Component} from 'react';
+import {PropTypes} from 'prop-types';
+import {Provider} from 'react-redux';
+import {Router, RouterContext} from 'react-router';
 import GoogleAnalytics from 'react-ga';
 
 export default class Root extends Component {
@@ -12,7 +12,7 @@ export default class Root extends Component {
   }
 
   onUpdate() {
-    const { store, type } = this.props;
+    const {store, type} = this.props;
     if (type !== 'server') {
       const state = store.getState();
       if (has(state, 'router.pathname')) {
@@ -21,7 +21,7 @@ export default class Root extends Component {
     }
   }
   render() {
-    const { store, history, routes, type, renderProps } = this.props;
+    const {store, history, routes, type, renderProps} = this.props;
     return (
       <Provider store={store}>
         <div>

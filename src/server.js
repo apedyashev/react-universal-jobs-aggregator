@@ -7,15 +7,12 @@ import http from 'http';
 import proxy from 'express-http-proxy';
 import path from 'path';
 import url from 'url';
-import _ from 'lodash';
-import { match, createMemoryHistory } from 'react-router';
-import { Provider } from 'react-redux';
-import { StaticRouter, matchPath } from 'react-router'
-import { Root } from 'containers';
+import {Provider} from 'react-redux';
+import {StaticRouter, matchPath} from 'react-router';
 import config from './config';
 import configureStore from './store/configureStore';
 import Html from './helpers/Html';
-import {extractRoutes} from './helpers/router';
+import extractRoutes from './helpers/router';
 import getRoutes from './routes';
 import waitAll from './sagas/waitAll';
 
@@ -89,7 +86,7 @@ app.use((req, res) => {
     .map(({match, component}) => component.preload(match.params, req))
     .reduce((result, preloader) => result.concat(preloader), []);
   const runTasks = store.runSaga(waitAll(preloaders));
-  global.navigator = { userAgent: req.headers['user-agent'] };
+  global.navigator = {userAgent: req.headers['user-agent']};
 
   // once saga is done with data loading, render the page and send it to the browser
   runTasks.done.then(() => {

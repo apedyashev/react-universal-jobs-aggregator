@@ -1,12 +1,12 @@
 import React from 'react';
-import { render } from 'react-dom';
+import {render} from 'react-dom';
 import GoogleAnalytics from 'react-ga';
-import { BrowserRouter } from 'react-router-dom';
+import {BrowserRouter} from 'react-router-dom';
+import {Provider} from 'react-redux';
 
-import { Root } from 'containers';
 import rootSaga from './sagas';
 import getRoutes from './routes';
-import { history } from './services';
+// import {history} from './services';
 import configureStore from './store/configureStore';
 import config from './config';
 

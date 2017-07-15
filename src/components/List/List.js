@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
+import React, { Component} from 'react';
+import {PropTypes} from 'prop-types';
 
 export default class List extends Component {
   renderLoadMore() {
-    const { isFetching, onLoadMoreClick } = this.props;
+    const {isFetching, onLoadMoreClick} = this.props;
     return (
       <button style={{ fontSize: '150%' }} onClick={onLoadMoreClick} disabled={isFetching}>
         {isFetching ? 'Loading...' : 'Load More'}
@@ -15,7 +15,7 @@ export default class List extends Component {
     const {
       isFetching, nextPageUrl, pageCount,
       items, renderItem, loadingLabel
-    } = this.props;
+   } = this.props;
 
     const isEmpty = items.length === 0;
     if (isEmpty && isFetching) {

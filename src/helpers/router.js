@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 const extractedRoutes = [];
-export function extractRoutes(routes) {
+export default function extractRoutes(routes) {
   let r = routes;
   if (_.isPlainObject(routes)) {
     r = [routes];

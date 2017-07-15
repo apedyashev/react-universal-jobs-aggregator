@@ -1,6 +1,6 @@
 /* eslint-disable */
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
+import React, { Component} from 'react';
+import {PropTypes} from 'prop-types';
 import ReactDOM from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import Helmet from 'react-helmet';
@@ -17,7 +17,7 @@ import config from '../config';
  */
 class Html extends Component {
   render() {
-    const { assets, component, store } = this.props;
+    const {assets, component, store} = this.props;
     const content = component ? ReactDOM.renderToStaticMarkup(component) : '';
     const head = Helmet.rewind();
 

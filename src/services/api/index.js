@@ -1,5 +1,5 @@
-import { schema, normalize } from 'normalizr';
-import { camelizeKeys } from 'humps';
+import {schema, normalize} from 'normalizr';
+import {camelizeKeys} from 'humps';
 import 'isomorphic-fetch';
 import config from 'config';
 
@@ -10,7 +10,7 @@ function getNextPageUrl(response) {
     return null;
   }
 
-  const nextLink = link.split(',').find(s => s.indexOf('rel="next"') > -1);
+  const nextLink = link.split(',').find((s) => s.indexOf('rel="next"') > -1);
   if (!nextLink) {
     return null;
   }
@@ -28,14 +28,14 @@ function callApi(endpoint, entitySchema) {
   // If request comes from server side, call API url directly.
   if (__SERVER__) {
     fullUrl = (endpoint.indexOf(config.apiBaseUrl) === -1)
-                  ? `${config.apiBaseUrl}/${endpoint}` : endpoint;
+      ? `${config.apiBaseUrl}/${endpoint}` : endpoint;
   }
 
   return fetch(fullUrl)
-    .then(response =>
-      response.json().then(json => ({ json, response }))
+    .then((response) =>
+      response.json().then((json) => ({json, response}))
     )
-    .then(({ json, response }) => {
+    .then(({json, response}) => {
       if (!response.ok) {
         return Promise.reject(json);
       }
@@ -46,12 +46,12 @@ function callApi(endpoint, entitySchema) {
       return Object.assign(
         {},
         normalize(camelizedJson, entitySchema),
-        { nextPageUrl }
+        {nextPageUrl}
       );
     })
     .then(
-      response => ({ response }),
-      error => ({ error: error.message || 'Something bad happened.' })
+      (response) => ({response}),
+      (error) => ({error: error.message || 'Something bad happened.'})
     );
 }
 
@@ -78,7 +78,7 @@ const userSchemaArray = new schema.Array(userSchema);
 const repoSchemaArray = new schema.Array(repoSchema);
 
 // api services
-export const fetchUser = login => callApi(`users/${login}`, userSchema);
-export const fetchRepo = fullName => callApi(`repos/${fullName}`, repoSchema);
-export const fetchStarred = url => callApi(url, repoSchemaArray);
-export const fetchStargazers = url => callApi(url, userSchemaArray);
+export const fetchUser = (login) => callApi(`users/${login}`, userSchema);
+export const fetchRepo = (fullName) => callApi(`repos/${fullName}`, repoSchema);
+export const fetchStarred = (url) => callApi(url, repoSchemaArray);
+export const fetchStargazers = (url) => callApi(url, userSchemaArray);
