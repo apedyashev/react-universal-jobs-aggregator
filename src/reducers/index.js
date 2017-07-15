@@ -54,11 +54,13 @@ function router(state = {pathname: '/'}, action) {
   }
 }
 
+import {rootReducer as modules} from 'modules';
 const rootReducer = combineReducers({
-  entities,
-  pagination,
-  errorMessage,
-  router
+  // entities,
+  // pagination,
+  // errorMessage,
+  // router,
+  modules
 });
 
 export default rootReducer;

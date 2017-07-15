@@ -3,7 +3,7 @@ import {PropTypes} from 'prop-types';
 import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
 import {Explore} from 'components';
-
+import DevTools from 'containers/DevTools/DevTools';
 
 import {Route, Switch} from 'react-router';
 import {
@@ -88,6 +88,7 @@ class App extends Component {
             <Route path="/404" component={NotFound} />
             <Route path="*" component={NotFound} />
           </Switch>
+          <DevTools />
         </div>
       </div>
     );

@@ -22,13 +22,14 @@ const PROXY_ROOT = '/api';
 
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
-function callApi(endpoint, entitySchema) {
+export function callApi(endpoint, entitySchema) {
   let fullUrl = (endpoint.indexOf(PROXY_ROOT) === -1) ? `${PROXY_ROOT}/${endpoint}` : endpoint;
 
   // If request comes from server side, call API url directly.
   if (__SERVER__) {
-    fullUrl = (endpoint.indexOf(config.apiBaseUrl) === -1)
-      ? `${config.apiBaseUrl}/${endpoint}` : endpoint;
+    // fullUrl = (endpoint.indexOf(config.apiBaseUrl) === -1)
+    //   ? `${config.apiBaseUrl}/${endpoint}` : endpoint;
+    fullUrl = endpoint;
   }
 
   return fetch(fullUrl)
@@ -42,7 +43,6 @@ function callApi(endpoint, entitySchema) {
 
       const camelizedJson = camelizeKeys(json);
       const nextPageUrl = getNextPageUrl(response);
-
       return Object.assign(
         {},
         normalize(camelizedJson, entitySchema),
@@ -79,6 +79,7 @@ const repoSchemaArray = new schema.Array(repoSchema);
 
 // api services
 export const fetchUser = (login) => callApi(`users/${login}`, userSchema);
+
 export const fetchRepo = (fullName) => callApi(`repos/${fullName}`, repoSchema);
 export const fetchStarred = (url) => callApi(url, repoSchemaArray);
 export const fetchStargazers = (url) => callApi(url, userSchemaArray);
