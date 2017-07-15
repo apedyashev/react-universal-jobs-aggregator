@@ -1,3 +1,3 @@
 * Selectors √
-* Dry up reducers
+* Dry up reducers √
 * Clean up services/api and probably get read of isomorphic-fetch
