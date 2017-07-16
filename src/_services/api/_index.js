@@ -4,19 +4,19 @@ import 'isomorphic-fetch';
 import config from 'config';
 
 // Extracts the next page URL from Github API response.
-function getNextPageUrl(response) {
-  const link = response.headers.get('link');
-  if (!link) {
-    return null;
-  }
-
-  const nextLink = link.split(',').find((s) => s.indexOf('rel="next"') > -1);
-  if (!nextLink) {
-    return null;
-  }
-
-  return nextLink.split(';')[0].slice(1, -1);
-}
+// function getNextPageUrl(response) {
+//   const link = response.headers.get('link');
+//   if (!link) {
+//     return null;
+//   }
+//
+//   const nextLink = link.split(',').find((s) => s.indexOf('rel="next"') > -1);
+//   if (!nextLink) {
+//     return null;
+//   }
+//
+//   return nextLink.split(';')[0].slice(1, -1);
+// }
 
 const PROXY_ROOT = '/api';
 
@@ -42,11 +42,11 @@ export function callApi(endpoint, entitySchema) {
       }
 
       const camelizedJson = camelizeKeys(json);
-      const nextPageUrl = getNextPageUrl(response);
+      // const nextPageUrl = getNextPageUrl(response);
       return Object.assign(
         {},
         normalize(camelizedJson, entitySchema),
-        {nextPageUrl}
+        // {nextPageUrl}
       );
     })
     .then(

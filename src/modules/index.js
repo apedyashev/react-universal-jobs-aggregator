@@ -1,7 +1,9 @@
 import {combineReducers} from 'redux';
 import {reducer as jobs} from './Jobs';
+import {reducer as user} from './user';
 const appReducer = combineReducers({
   jobs,
+  user,
 });
 
 export const rootReducer = (state, action) => {

@@ -10,6 +10,7 @@ import url from 'url';
 import {Provider} from 'react-redux';
 import {StaticRouter, matchPath} from 'react-router';
 import App from 'containers/App';
+import httpHelper from 'helpers/http';
 import config from './config';
 import configureStore from './store/configureStore';
 import Html from './helpers/Html';
@@ -39,6 +40,7 @@ app.use((req, res) => {
   }
 
   const store = configureStore();
+  httpHelper.setStore(store);
   const allRoutes = getRoutes(store);
   const assets = webpackIsomorphicTools.assets();
 
