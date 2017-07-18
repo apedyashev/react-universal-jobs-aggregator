@@ -3,7 +3,13 @@ import {PropTypes} from 'prop-types';
 import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
 import {Explore} from 'components';
+import injectTapEventPlugin from 'injectTapEventPlugin';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import muiTheme from 'theme/mui-theme';
 import DevTools from 'containers/DevTools/DevTools';
+
+import {NotAuthenticated} from 'components/TopNav';
 
 import {Route, Switch} from 'react-router';
 import {
@@ -44,6 +50,7 @@ class App extends Component {
   }
 
   componentWillMount() {
+    injectTapEventPlugin();
     // this.props.updateRouterState({
     //   pathname: this.props.location.pathname,
     //   params: this.props.params
@@ -74,23 +81,25 @@ class App extends Component {
   render() {
     const {children, inputValue} = this.props;
     return (
-      <div className={styles.app}>
-        <Helmet
-          title="React Universal Saga"
-          meta={[{property: 'og:site_name', content: 'React Universal Saga'}]}
-        />
-        App <hr />
-        <div className={styles.content}>
-          <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route path="/:login" component={UserPage} />
-            <Route path="/:login/:name" component={RepoPage} />
-            <Route path="/404" component={NotFound} />
-            <Route path="*" component={NotFound} />
-          </Switch>
-          <DevTools />
+      <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
+        <div className={styles.app}>
+          <Helmet
+            title="React Universal Saga"
+            meta={[{property: 'og:site_name', content: 'React Universal Saga'}]}
+          />
+          <NotAuthenticated />
+          <div className={styles.content}>
+            <Switch>
+              <Route exact path="/" component={HomePage} />
+              <Route path="/:login" component={UserPage} />
+              <Route path="/:login/:name" component={RepoPage} />
+              <Route path="/404" component={NotFound} />
+              <Route path="*" component={NotFound} />
+            </Switch>
+            <DevTools />
+          </div>
         </div>
-      </div>
+      </MuiThemeProvider>
     );
   }
 }

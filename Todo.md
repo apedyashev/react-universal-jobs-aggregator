@@ -4,3 +4,4 @@
 * Storing auth token on the server?
 * Add config √
 * Use localhost only for SSR
+* Handle API is down scenario
