@@ -1,17 +1,17 @@
 /* eslint-disable no-constant-condition */
-import {take, put, call, fork, select} from 'redux-saga/effects';
+// import {put, call} from 'redux-saga/effects';
 // import {api, history} from '../services';
-import * as actions from '../actions';
+// import * as actions from '../actions';
 
-import {getUser, getRepo, getStarredByUser, getStargazersByRepo} from '../reducers/selectors';
+// import {getUser, getRepo, getStarredByUser, getStargazersByRepo} from '../reducers/selectors';
 
 // each entity defines 3 creators { request, success, failure }
-const {user, repo, starred, stargazers} = actions;
+// const {user, repo, starred, stargazers} = actions;
 
 // url for first page
 // urls for next pages will be extracted from the successive loadMore* requests
-const firstPageStarredUrl = (login) => `users/${login}/starred`;
-const firstPageStargazersUrl = (fullName) => `repos/${fullName}/stargazers`;
+// const firstPageStarredUrl = (login) => `users/${login}/starred`;
+// const firstPageStargazersUrl = (fullName) => `repos/${fullName}/stargazers`;
 
 
 /**
@@ -23,15 +23,15 @@ const firstPageStargazersUrl = (fullName) => `repos/${fullName}/stargazers`;
 // apiFn  : api.fetchUser | api.fetchRepo | ...
 // id     : login | fullName
 // url    : next page url. If not provided will use pass it to apiFn
-function* fetchEntity(entity, apiFn, id, url) {
-  yield put(entity.request(id));
-  const {response, error} = yield call(apiFn, url || id);
-  if (response) {
-    yield put(entity.success(id, response));
-  } else {
-    yield put(entity.failure(id, error));
-  }
-}
+// function* fetchEntity(entity, apiFn, id, url) {
+//   yield put(entity.request(id));
+//   const {response, error} = yield call(apiFn, url || id);
+//   if (response) {
+//     yield put(entity.success(id, response));
+//   } else {
+//     yield put(entity.failure(id, error));
+//   }
+// }
 
 // yeah! we can also bind Generators
 // export const fetchUser = fetchEntity.bind(null, user, api.fetchUser);

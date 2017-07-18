@@ -1,14 +1,15 @@
 import union from 'lodash/union';
+import merge from 'lodash/merge';
 
 // created an initial state module which will be storing a list
 export const makeListInitialState = (additionalValues = {}) => {
-  const initialState = {
+  const initialState = merge({
     pending: false,
     loaded: false,
     hasNextPage: true,
     items: {},
     order: [],
-  };
+  }, additionalValues);
 
   return Object.assign({}, initialState, initialState);
 };
@@ -33,10 +34,10 @@ export const listReducer = (state, action, requestTypes) => {
         hasNextPage: !!paginate.nextPage,
         items: {
           ...state.items,
-          ...entities.jobs
+          ...entities.jobs,
         },
-        order: union(state.order, result.items)
-      }
+        order: union(state.order, result.items),
+      };
     }
 
     case requestTypes.FAILURE: {
@@ -46,7 +47,9 @@ export const listReducer = (state, action, requestTypes) => {
         loaded: false,
       };
     }
-  }
 
-  return state;
+    default : {
+      return state;
+    }
+  }
 };

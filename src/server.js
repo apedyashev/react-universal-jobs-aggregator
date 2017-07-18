@@ -75,7 +75,7 @@ app.use((req, res) => {
     const match = matchPath(req.url, {
       path: route.path,
       exact: true,
-      strict: false
+      strict: false,
     });
     // ignore wildcard since it's usually used for 404 page
     if (match && (match.path !== '*')) {

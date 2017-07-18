@@ -5,10 +5,8 @@ import {BrowserRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import httpHelper from 'helpers/http';
 import App from 'containers/App';
-
-import rootSaga from './sagas';
-import getRoutes from './routes';
-import configureStore from './store/configureStore';
+import rootSaga from 'sagas';
+import configureStore from 'store/configureStore';
 import config from 'config';
 
 const dest = document.getElementById('content');
@@ -25,7 +23,7 @@ render(
       <App />
     </BrowserRouter>
   </Provider>,
-  dest
+  dest,
 );
 
 if (process.env.NODE_ENV !== 'production') {

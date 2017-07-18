@@ -1,5 +1,5 @@
 import superagent from 'superagent';
-import {schema, normalize} from 'normalizr';
+import {normalize} from 'normalizr';
 import {camelizeKeys} from 'humps';
 import config from 'config';
 import {errorHandler} from './errorHandler';
@@ -29,7 +29,7 @@ const http = {
             errorHandler(http.store.dispatch)(err).catch(reject) :
             resolve({statusCode: res.statusCode, response});
         });
-    })
+    });
   },
 
   // post: ({url, data, headers = {}}) =>

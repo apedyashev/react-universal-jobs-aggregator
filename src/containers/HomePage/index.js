@@ -1,5 +1,6 @@
 // libs
-import React, {PropTypes} from 'react';
+import React from 'react';
+import {PropTypes} from 'prop-types';
 import {connect} from 'react-redux';
 import map from 'lodash/map';
 // actions
@@ -10,7 +11,14 @@ import {orderedJobsSelector} from 'modules/Jobs/selectors';
 // components
 
 class HomePage extends React.Component {
-  static propTypes = {};
+  static propTypes = {
+    jobs: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        title: PropTypes.string,
+      }).isRequired,
+    ).isRequired,
+  };
 
   static preload = () => {
     return [
@@ -27,9 +35,9 @@ class HomePage extends React.Component {
   }
 }
 
-function select(state, ownProps) {
+function select(state) {
   return {
-    jobs: orderedJobsSelector(state)
+    jobs: orderedJobsSelector(state),
   };
 }
 

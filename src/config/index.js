@@ -11,7 +11,7 @@ module.exports = Object.assign({
   apiBaseUrl: process.env.API_URL,
   app: {
     googleAnalytics: {
-      appId: process.env.GOOGLE_ANALYTIC_ID || 'UA-XXXXXXXX-X'
+      appId: process.env.GOOGLE_ANALYTIC_ID || 'UA-XXXXXXXX-X',
     },
     title: 'React Universal Saga',
     description: 'Universal React Starter Kit ft. Redux Saga',
@@ -29,8 +29,8 @@ module.exports = Object.assign({
         {property: 'og:site', content: '@xkawi'},
         {property: 'og:creator', content: '@xkawi'},
         {property: 'og:image:width', content: '200'},
-        {property: 'og:image:height', content: '200'}
-      ]
-    }
+        {property: 'og:image:height', content: '200'},
+      ],
+    },
   },
 }, envConfig);
