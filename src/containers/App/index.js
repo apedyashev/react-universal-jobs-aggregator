@@ -6,6 +6,7 @@ import injectTapEventPlugin from 'injectTapEventPlugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import muiTheme from 'theme/mui-theme';
+import {withRouter} from 'react-router-dom';
 // import DevTools from 'containers/DevTools/DevTools';
 
 import {NotAuthenticated} from 'components/TopNav';
@@ -51,7 +52,8 @@ class App extends Component {
     // });
   }
 
-  // componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
+    console.log('nextProps', nextProps);
   //   if (nextProps.errorMessage) {
   //     // handle error here
   //   }
@@ -61,7 +63,7 @@ class App extends Component {
   //       params: nextProps.params
   //     });
   //   }
-  // }
+  }
 
   // handleDismissClick(e) {
   //   // this.props.resetErrorMessage();
@@ -106,8 +108,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
+export default withRouter(connect(mapStateToProps, {
   // navigate,
   // updateRouterState,
   // resetErrorMessage
-})(App);
+})(App));
