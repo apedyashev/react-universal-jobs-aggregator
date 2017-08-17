@@ -1,5 +1,5 @@
 // libs
-import React, {PropTypes} from 'react';
+import React from 'react';
 // other
 import styles from './index.less';
 

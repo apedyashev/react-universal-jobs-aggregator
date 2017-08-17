@@ -1,8 +1,13 @@
 // eslint-disable
 // @import '~bootstrap-sass/assets/stylesheets/bootstrap/mixins';
+@import '~normalize.css';
 
 .app {
   .content {
     // padding-top: 70px;
   }
+}
+
+:focus {
+  outline: none;
 }

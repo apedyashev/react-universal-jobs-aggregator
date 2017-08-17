@@ -1,6 +1,5 @@
 // libs
 import React, {PropTypes} from 'react';
-import isPlainObject from 'lodash/isPlainObject';
 // components
 import {List, WindowScroller, AutoSizer, InfiniteLoader} from 'react-virtualized';
 import Loader from 'components/Loader';
@@ -9,17 +8,25 @@ import waitAll from 'sagas/waitAll';
 class InfiniteList extends React.Component {
   static propTypes = {
     className: PropTypes.string,
+    /* eslint-disable react/forbid-prop-types */
     searchQuery: PropTypes.any,
+    /* eslint-enable react/forbid-prop-types */
     totalItemsCount: PropTypes.number.isRequired,
-    rows: PropTypes.array.isRequired,
+    rows: PropTypes.arrayOf(
+      PropTypes.object,
+    ).isRequired,
     rowRenderer: PropTypes.func.isRequired,
     hasNextPage: PropTypes.bool.isRequired,
     perPage: PropTypes.number.isRequired,
     loadNextPage: PropTypes.func.isRequired,
-    publicMethods: PropTypes.func
+    publicMethods: PropTypes.func,
+    getRowHeight: PropTypes.func,
   };
   static defaultProps = {
     getRowHeight: () => 16,
+    publicMethods: null,
+    searchQuery: '',
+    className: '',
   };
   static contextTypes = {
     store: PropTypes.object,
@@ -33,9 +40,18 @@ class InfiniteList extends React.Component {
       publicMethods({
         resetInfiniteList: () => {
           this.setState({pageLoadingMap: []});
-        }
+        },
       });
     }
+  }
+
+  getRowHeight = ({index}) => {
+    return this.props.getRowHeight({index});
+  }
+
+  isRowLoaded = ({index}) => {
+    const {rows} = this.props;
+    return !!rows[index];
   }
 
   loadMoreRows = () => {
@@ -57,11 +73,10 @@ class InfiniteList extends React.Component {
         this.setState({pageLoadingMap});
       });
     }
-  };
+  }
 
-  isRowLoaded = ({index}) => {
-    const {rows} = this.props;
-    return !!rows[index];
+  noRowsRenderer = () => {
+    return <div>No items found</div>;
   }
 
   rowRenderer = ({index, key, style}) => {
@@ -79,14 +94,6 @@ class InfiniteList extends React.Component {
     return (<div key={key} style={style} >
       row {index}
     </div>);
-  }
-
-  noRowsRenderer = () => {
-    return <div>No items found</div>;
-  }
-
-  getRowHeight = ({index}) => {
-    return this.props.getRowHeight({index});
   }
 
   render() {

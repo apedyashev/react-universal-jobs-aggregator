@@ -6,7 +6,7 @@ import injectTapEventPlugin from 'injectTapEventPlugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import muiTheme from 'theme/mui-theme';
-import DevTools from 'containers/DevTools/DevTools';
+// import DevTools from 'containers/DevTools/DevTools';
 
 import {NotAuthenticated} from 'components/TopNav';
 import getRoutes from 'routes';
@@ -88,7 +88,7 @@ class App extends Component {
         </div>
       </MuiThemeProvider>
     );
-    //<DevTools />
+    // <DevTools />
   }
 }
 

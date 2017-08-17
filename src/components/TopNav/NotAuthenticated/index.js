@@ -25,7 +25,7 @@ class NotAuthenticated extends Component {
     const {stick} = this.state;
 
     return (<header className={cn(styles.container, {[styles.stick]: stick})}>
-      <div className={styles.logo}></div>
+      <div className={styles.logo} />
       <div className={styles.items}>
         <Link to="/login" className={styles.item} activeClassName={styles.active}>
           <MenuItem primaryText="Login" />
