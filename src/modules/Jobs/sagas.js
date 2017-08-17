@@ -8,9 +8,9 @@ import {jobs} from './actions';
 export const fetchJobs = makeRequest.bind(null, jobs, api.fetchJobs);
 
 // load repo unless it is cached
-export function* loadJobs() {
+export function* loadJobs({page, perPage} = {page: 1, perPage: 20}) {
   // const repoObj = yield select(getRepo, fullName);
   // if (!repoObj) {
-  yield call(fetchJobs);
+  yield call(fetchJobs, {page, perPage});
   // }
 }

@@ -23,7 +23,7 @@ import getRoutes from 'routes';
 //   updateRouterState,
 //   resetErrorMessage
 // } from '../../actions';
-import styles from './App.scss'; // eslint-disable-line
+import styles from './index.scss'; // eslint-disable-line
 
 class App extends Component {
   static propTypes = {
@@ -83,11 +83,12 @@ class App extends Component {
           <NotAuthenticated />
           <div className={styles.content}>
             {getRoutes()}
-            <DevTools />
+
           </div>
         </div>
       </MuiThemeProvider>
     );
+    //<DevTools />
   }
 }
 

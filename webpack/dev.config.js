@@ -91,23 +91,32 @@ module.exports = {
         // {loader: 'eslint-loader'}
         // 'babel?' + JSON.stringify(babelLoaderQuery), 'eslint-loader'
       ]},
-      { test: /\.less$/, use: [
-        {loader: 'style-loader'},
-        {loader: 'css-loader', options: {
-          modules: true,
-          importLoaders: 2,
-          sourceMap: true,
-          localIdentName: '[local]___[hash:base64:5]',
-        }},
-        {
-          loader: 'postcss-loader'
-        },
-        {loader: 'less-loader', options: {
-          outputStyle: 'expanded',
-          sourceMap: true
-        }},
+      {
+        test: /\.less$/,
+        use: [
+          {loader: 'style-loader'},
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              importLoaders: 2,
+              sourceMap: true,
+              // url: false,
+              localIdentName: '[local]___[hash:base64:5]',
+            }
+          },
+          {
+            loader: 'postcss-loader'
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              outputStyle: 'expanded',
+              sourceMap: true
+            }
+          },
         // 'style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!postcss-loader!less?outputStyle=expanded&sourceMap'
-      ]},
+        ]},
       { test: /\.scss$/,
         use: [
           {loader: 'style-loader'},
@@ -155,6 +164,13 @@ module.exports = {
           mimetype: 'image/svg+xml'
         }
       }]},
+      // {
+      //   test    : /\.(png|jpg|gif)$/,
+      //   loader  : 'url-loader',
+      //   options : {
+      //     limit : 8192,
+      //   },
+      // },
         //"url?limit=10000&mimetype=image/svg+xml"
       { test: webpackIsomorphicToolsPlugin.regular_expression('images'), use: [
         {loader: 'url-loader', options: {limit: 10240}}
