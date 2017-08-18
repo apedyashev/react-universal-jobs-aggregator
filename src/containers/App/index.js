@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {PropTypes} from 'prop-types';
+// import {PropTypes} from 'prop-types';
 import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
 import injectTapEventPlugin from 'injectTapEventPlugin';
@@ -9,7 +9,6 @@ import muiTheme from 'theme/mui-theme';
 import {withRouter} from 'react-router-dom';
 // import DevTools from 'containers/DevTools/DevTools';
 
-import {NotAuthenticated} from 'components/TopNav';
 import getRoutes from 'routes';
 // import {Route, Switch} from 'react-router';
 // import {
@@ -33,7 +32,7 @@ class App extends Component {
     // navigate: PropTypes.func.isRequired,
     // updateRouterState: PropTypes.func.isRequired,
     // resetErrorMessage: PropTypes.func.isRequired,
-    children: PropTypes.node,
+    // children: PropTypes.node,
     // location: PropTypes.shape({
     //   pathname: PropTypes.string,
     // }),
@@ -82,14 +81,13 @@ class App extends Component {
             title="React Universal Saga"
             meta={[{property: 'og:site_name', content: 'React Universal Saga'}]}
           />
-          <NotAuthenticated />
-          <div className={styles.content}>
+          <div>
             {getRoutes()}
-
           </div>
         </div>
       </MuiThemeProvider>
     );
+    // <NotAuthenticated alwaysFixed />
     // <DevTools />
   }
 }

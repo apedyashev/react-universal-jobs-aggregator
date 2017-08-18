@@ -1,12 +1,19 @@
 // libs
 import React, {Component} from 'react';
+import {PropTypes} from 'prop-types';
 import cn from 'classnames';
 // components
-import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import MenuItem from 'material-ui/MenuItem';
 import styles from '../index.less';
 
 class NotAuthenticated extends Component {
+  static propTypes = {
+    alwaysSticked: PropTypes.bool,
+  };
+  static defaultProps = {
+    alwaysSticked: false,
+  };
   state = {stick: false};
 
   componentDidMount() {
@@ -23,16 +30,17 @@ class NotAuthenticated extends Component {
 
   render() {
     const {stick} = this.state;
+    const {alwaysSticked} = this.props;
 
-    return (<header className={cn(styles.container, {[styles.stick]: stick})}>
+    return (<header className={cn(styles.container, {[styles.stick]: (alwaysSticked || stick)})}>
       <div className={styles.logo} />
       <div className={styles.items}>
-        <Link to="/login" className={styles.item} activeClassName={styles.active}>
+        <NavLink to="/login" className={styles.item} activeClassName={styles.active}>
           <MenuItem primaryText="Login" />
-        </Link>
-        <Link to="/register" className={styles.item} activeClassName={styles.active}>
+        </NavLink>
+        <NavLink to="/register" className={styles.item} activeClassName={styles.active}>
           <MenuItem primaryText="Register" />
-        </Link>
+        </NavLink>
       </div>
     </header>);
   }
