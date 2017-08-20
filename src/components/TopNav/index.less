@@ -33,10 +33,17 @@
       cursor: pointer;
       span {
         color: #fff !important;
+        background: none !important;
+      }
+
+      &.active {
+        border-top: 3px solid #fff !important;
+        cursor: default;
+        span {
+          cursor: default !important;
+        }
       }
     }
-    .active {
-      border-top: 3px solid $accent1Color;
-    }
+
   }
 }

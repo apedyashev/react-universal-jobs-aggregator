@@ -20,7 +20,36 @@ const http = {
       return superagent
         .get(http.buildUrl(url))
         .query(query)
-        .set({Accept: 'application/json', Authorization: http.store.getState().modules.user.authHeader, ...headers})
+        .set({
+          Accept: 'application/json',
+          Authorization: http.store.getState().modules.auth.authHeader,
+          ...headers,
+        })
+        .end((err, res) => {
+          const camelizedJson = camelizeKeys(res.body);
+          const response = Object.assign({}, normalize(camelizedJson, shema));
+
+          return err ?
+            errorHandler(http.store.dispatch)(err).catch(reject) :
+            resolve({statusCode: res.statusCode, response});
+        });
+    });
+  },
+
+  post: ({url, data, shema, headers = {}}) => {
+    if (!shema) {
+      console.warn(`Shema is not defined for ${url}`);
+    }
+
+    return new Promise((resolve, reject) => {
+      return superagent
+        .post(http.buildUrl(url))
+        .send(data)
+        .set({
+          Accept: 'application/json',
+          Authorization: http.store.getState().modules.auth.authHeader,
+          ...headers,
+        })
         .end((err, res) => {
           const camelizedJson = camelizeKeys(res.body);
           const response = Object.assign({}, normalize(camelizedJson, shema));

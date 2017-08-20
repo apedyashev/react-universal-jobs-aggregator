@@ -26,7 +26,7 @@ class HomePage extends React.Component {
   };
 
 
-  static preload = () => {
+  static preload() {
     return [
       [jobsSagas.loadJobs],
     ];

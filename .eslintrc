@@ -33,7 +33,8 @@
     "import/prefer-default-export": 0,
     "max-len": 0,
     "no-unused-vars": 1,
-    "global-require": 0
+    "global-require": 0,
+    "no-useless-escape": "off"
   },
   "plugins": [
     "react", "import", "babel"

@@ -7,9 +7,9 @@ import {NotAuthenticated} from 'components/TopNav';
 // other
 import styles from './index.less';
 
-export default function AuthLayout({children}, {loggedUserId}) {
-  if (loggedUserId) {
-    return <Redirect to="/dashboard" />;
+export default function DashboardLayout({children}, {loggedUserId}) {
+  if (!loggedUserId) {
+    return <Redirect to="/login" />;
   }
 
   return (
@@ -21,10 +21,9 @@ export default function AuthLayout({children}, {loggedUserId}) {
     </div>
   );
 }
-AuthLayout.propTypes = {
+DashboardLayout.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
-AuthLayout.contextTypes = {
+DashboardLayout.contextTypes = {
   loggedUserId: PropTypes.string,
 };

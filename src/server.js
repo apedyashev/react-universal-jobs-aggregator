@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import favicon from 'serve-favicon';
 import compression from 'compression';
+import cookieParser from 'cookie-parser';
 import http from 'http';
 import proxy from 'express-http-proxy';
 import path from 'path';
@@ -11,6 +12,8 @@ import {Provider} from 'react-redux';
 import {StaticRouter, matchPath} from 'react-router';
 import App from 'containers/App';
 import httpHelper from 'helpers/http';
+import {getAuth} from 'helpers/auth';
+import {setAuth} from 'modules/auth/actions';
 import config from './config';
 import configureStore from './store/configureStore';
 import Html from './helpers/Html';
@@ -18,12 +21,14 @@ import extractRoutes from './helpers/router';
 import getRoutes from './routes';
 import waitAll from './sagas/waitAll';
 
+
 const app = new Express();
 const server = new http.Server(app);
 
 // disable `X-Powered-By` HTTP header for better security
 app.disable('x-powered-by');
 
+app.use(cookieParser());
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 app.use(Express.static(path.join(__dirname, '..', 'static')));
@@ -40,6 +45,8 @@ app.use((req, res) => {
   }
 
   const store = configureStore();
+  // get auth header from cookies and dispatch it to the store
+  store.dispatch(setAuth({authHeader: getAuth(req)}));
   httpHelper.setStore(store);
   const allRoutes = getRoutes(store);
   const assets = webpackIsomorphicTools.assets();
@@ -70,7 +77,10 @@ app.use((req, res) => {
 
   // get a current route and preload all the data for it
   const extractedRoutes = extractRoutes(allRoutes);
-  const filtered = [];
+  const filtered = [
+    // App is the root component so we always want to use its preloader
+    {component: App, match: {path: '/', url: '/', isExact: true, params: {}}},
+  ];
   extractedRoutes.forEach((route) => {
     const match = matchPath(req.url, {
       path: route.path,
@@ -88,6 +98,7 @@ app.use((req, res) => {
     .filter(({component}) => component && component.preload)
     .map(({match, component}) => component.preload(match.params, req))
     .reduce((result, preloader) => result.concat(preloader), []);
+
   const runTasks = store.runSaga(waitAll(preloaders));
   global.navigator = {userAgent: req.headers['user-agent']};
 
