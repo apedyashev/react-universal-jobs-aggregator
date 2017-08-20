@@ -3,9 +3,11 @@ import {PropTypes} from 'prop-types';
 import {connect} from 'react-redux';
 // sagas
 import {fetchProfile} from 'modules/user/sagas';
+// components
 import Helmet from 'react-helmet';
 import injectTapEventPlugin from 'injectTapEventPlugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import TopNav from 'components/TopNav';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import muiTheme from 'theme/mui-theme';
 import {withRouter} from 'react-router-dom';
@@ -16,6 +18,10 @@ import styles from './index.scss'; // eslint-disable-line
 class App extends Component {
   static propTypes = {
     loggedUserId: PropTypes.string,
+    isAuthenticated: PropTypes.bool.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -42,11 +48,13 @@ class App extends Component {
     injectTapEventPlugin();
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   console.log('nextProps', nextProps);
-  // }
+  componentWillReceiveProps(nextProps) {
+    console.log('nextProps', nextProps);
+  }
 
   render() {
+    const {location: {pathname}, isAuthenticated} = this.props;
+    const isTopNavAlwaysSticked = (pathname !== '/');
     return (
       <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
         <div className={styles.app}>
@@ -54,6 +62,7 @@ class App extends Component {
             title="React Universal Saga"
             meta={[{property: 'og:site_name', content: 'React Universal Saga'}]}
           />
+          <TopNav alwaysSticked={isTopNavAlwaysSticked} isAuthenticated={isAuthenticated} />
           <div>
             {getRoutes()}
           </div>
@@ -72,8 +81,10 @@ class App extends Component {
 // App.preload = preload;
 
 function mapStateToProps(state) {
+  const loggedUserId = state.modules.user.loggedUserId;
   return {
-    loggedUserId: state.modules.user.loggedUserId,
+    loggedUserId,
+    isAuthenticated: !!loggedUserId,
     errorMessage: state.errorMessage,
     // inputValue: state.router.pathname.substring(1)
   };

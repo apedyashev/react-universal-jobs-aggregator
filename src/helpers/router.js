@@ -31,6 +31,6 @@ export function RouteWithLayout({layout, component, ...rest}) {
   );
 }
 RouteWithLayout.propTypes = {
-  layout: PropTypes.element.isRequired,
-  component: PropTypes.element.isRequired,
+  layout: PropTypes.func.isRequired,
+  component: PropTypes.func.isRequired,
 };

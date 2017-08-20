@@ -3,7 +3,6 @@ import React from 'react';
 import {PropTypes} from 'prop-types';
 // components
 import {Redirect} from 'react-router-dom';
-import {NotAuthenticated} from 'components/TopNav';
 // other
 import styles from './index.less';
 
@@ -13,11 +12,8 @@ export default function AuthLayout({children}, {loggedUserId}) {
   }
 
   return (
-    <div>
-      <NotAuthenticated alwaysSticked />
-      <div className={styles.content}>
-        {children}
-      </div>
+    <div className={styles.content}>
+      {children}
     </div>
   );
 }
