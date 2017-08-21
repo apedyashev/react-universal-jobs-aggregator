@@ -8,6 +8,7 @@ import {sagas as jobsSagas} from 'modules/Jobs';
 import {orderedJobsSelector, jobsMeta} from 'modules/Jobs/selectors';
 // components
 import JobsList from 'components/JobsList';
+import {H3} from 'components/typography';
 import Hero from './Hero';
 // other
 import styles from './index.less';
@@ -22,6 +23,7 @@ class HomePage extends React.Component {
     ).isRequired,
     jobsMeta: PropTypes.shape({
       hasNextPage: PropTypes.bool.isRequired,
+      totalCount: PropTypes.number.isRequired,
     }).isRequired,
   };
 
@@ -37,11 +39,12 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const {jobs, jobsMeta: {hasNextPage}} = this.props;
+    const {jobs, jobsMeta: {hasNextPage, totalCount}} = this.props;
     return (<div className={styles.root}>
       <Hero />
 
       <div className={styles.content}>
+        <H3>Recent jobs <span>({jobs.length} out of {totalCount} have been loaded)</span></H3>
         <JobsList
           jobs={jobs}
           hasNextPage={hasNextPage}
@@ -52,9 +55,6 @@ class HomePage extends React.Component {
     </div>);
   }
 }
-// {map(this.props.jobs, (job) => (
-//   <div key={job.id}>{job.title}</div>
-// ))}
 
 function select(state) {
   return {

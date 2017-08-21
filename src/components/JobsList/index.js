@@ -19,7 +19,7 @@ class JobsList extends React.Component {
     ).isRequired,
   };
 
-  getRowHeight = () => 160
+  getRowHeight = () => 180
 
   jobItemRenderer = ({rowData, key, style}) => {
     return (<div key={key} style={style}>

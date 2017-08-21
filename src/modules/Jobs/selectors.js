@@ -12,5 +12,5 @@ export const orderedJobsSelector = createSelector(
 
 export const jobsMeta = createSelector(
   (state) => state.modules.jobs,
-  (jobsModule) => pick(jobsModule, ['pending', 'loaded', 'hasNextPage']),
+  (jobsModule) => pick(jobsModule, ['pending', 'loaded', 'hasNextPage', 'totalCount']),
 );

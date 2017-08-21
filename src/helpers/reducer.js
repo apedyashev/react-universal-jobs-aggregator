@@ -7,6 +7,7 @@ export const makeListInitialState = (additionalValues = {}) => {
     pending: false,
     loaded: false,
     hasNextPage: true,
+    totalCount: 0,
     items: {},
     order: [],
   }, additionalValues);
@@ -32,6 +33,7 @@ export const listReducer = (state, action, requestTypes) => {
         pending: false,
         loaded: true,
         hasNextPage: !!paginate.nextPage,
+        totalCount: paginate.totalCount,
         items: {
           ...state.items,
           ...entities.jobs,

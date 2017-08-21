@@ -45,7 +45,6 @@ class DashboardJobsPage extends React.Component {
 
   render() {
     const {subscriptions, jobs, jobsMeta: {hasNextPage}} = this.props;
-    console.log('jobs', jobs, hasNextPage);
     return (<div className={styles.root}>
       <div className={styles.sidebar}>
         <SubscriptionsList subscriptions={subscriptions} />

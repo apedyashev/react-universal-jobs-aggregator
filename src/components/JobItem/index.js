@@ -1,5 +1,6 @@
 // libs
-import React, {PropTypes} from 'react';
+import React from 'react';
+import {PropTypes} from 'prop-types';
 import format from 'date-fns/format';
 // components
 import {Card, CardHeader, CardText} from 'material-ui/Card';

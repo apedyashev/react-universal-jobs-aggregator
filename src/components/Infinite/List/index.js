@@ -1,5 +1,6 @@
 // libs
-import React, {PropTypes} from 'react';
+import React from 'react';
+import {PropTypes} from 'prop-types';
 // components
 import {List, WindowScroller, AutoSizer, InfiniteLoader} from 'react-virtualized';
 import Loader from 'components/Loader';

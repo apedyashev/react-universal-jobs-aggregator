@@ -1,5 +1,4 @@
 // eslint-disable
-// @import '~bootstrap-sass/assets/stylesheets/bootstrap/mixins';
 @import '~normalize.css';
 
 .app {
@@ -10,4 +9,9 @@
 
 :focus {
   outline: none;
+}
+
+body {
+  // prevent FOUC
+  visibility: visible !important;
 }
