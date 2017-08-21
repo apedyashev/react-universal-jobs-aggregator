@@ -1,3 +1,5 @@
+@import '~theme/colors.less';
+
 .container {
   position: absolute;
   height: 100px;
@@ -7,16 +9,32 @@
   background-color: rgba(256, 256, 256, 0);
   transition: height 0.6s;
 
-  &.stick {
-    position: fixed;
-    background-color: #00AAF0;
-    height: 70px;
-  }
-
   .logo {
     display: flex;
     flex: 1;
+
+    a {
+      margin-left: 30px;
+      width: 200px;
+      height: 100%;
+      background-image: url(./images/logo-inverted.png);
+      background-position: center;
+    }
   }
+
+  &.stick {
+    position: fixed;
+    background-color: @primary1Color; // #00AAF0
+    height: 70px;
+
+    .logo {
+      a {
+        background-image: url(./images/logo.png);
+      }
+    }
+  }
+
+
   .items {
     display: flex;
     flex-grow: 2;
@@ -33,18 +51,17 @@
       cursor: pointer;
       border-top: 3px solid rgba(255, 255, 255, 0) !important;
       span {
-        color: #fff !important;
+        color: @alternateTextColor !important;
         background: none !important;
       }
 
       &.active {
-        border-top: 3px solid #fff !important;
+        border-top: 3px solid @alternateTextColor !important;
         cursor: default;
         span {
           cursor: default !important;
         }
       }
     }
-
   }
 }

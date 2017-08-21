@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {PropTypes} from 'prop-types';
 import cn from 'classnames';
 // components
-// import {NavLink} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 // import MenuItem from 'material-ui/MenuItem';
 import NotAuthenticated from './NotAuthenticated';
 import Authenticated from './Authenticated';
@@ -37,7 +37,9 @@ class TopNav extends Component {
     const {alwaysSticked, isAuthenticated} = this.props;
 
     return (<header className={cn(styles.container, {[styles.stick]: (alwaysSticked || stick)})}>
-      <div className={styles.logo} />
+      <div className={styles.logo}>
+        <NavLink to="/" />
+      </div>
       <div className={styles.items}>
         {isAuthenticated ? <Authenticated /> : <NotAuthenticated />}
       </div>

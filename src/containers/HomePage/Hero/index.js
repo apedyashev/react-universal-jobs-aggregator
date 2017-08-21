@@ -7,8 +7,8 @@ export default function Hero() {
   return (
     <div className={styles.root}>
       <div className={styles.about}>
-        <p>This is a demo project that allows to search jobs scrapped from jobscout24.ch</p>
-        <p>Front-end was built with React.js and it utilizes REST API developed with Node.js + MongoDB</p>
+        <p>This is a <b>demo project</b> that allows to search jobs scrapped from <a href="https://www.jobscout24.ch/de">jobscout24.ch</a></p>
+        <p>Front-end was built with <b>React.js</b> and it utilizes REST API developed with <b>Sails.js + MongoDB</b></p>
       </div>
     </div>
   );

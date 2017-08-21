@@ -1,9 +1,9 @@
 import {schema} from 'normalizr';
 import http from 'helpers/http';
+import {subscriptionSchemaArray} from 'modules/subscriptions/api';
 
-export const subscriptionSchema = new schema.Entity('subscriptions');
 export const userSchema = new schema.Entity('users', {
-  subscriptions: subscriptionSchema,
+  subscriptions: subscriptionSchemaArray,
 });
 
 export const fetchProfile = () => http.get({

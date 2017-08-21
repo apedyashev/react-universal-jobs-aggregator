@@ -1,16 +1,23 @@
+@import '~theme/colors.less';
+
 .root {
   position: relative;
   background-color: rgba(0,51,86,0.75);
   overflow: hidden;
   height: 400px;
   width: 100%;
+  color: @alternateTextColor;
+  font-family: "Gotham Rounded SSm A","Gotham Rounded SSm B",Helvetica,Arial,sans-serif;
 
+  b, a {
+    color: @alternateTextAccentColor;
+  }
   .about {
     position: relative;
     z-index: 2;
     width: 50%;
     float: right;
-    margin-top: 100px;
+    margin-top: 150px;
   }
   &:before {
     background: url(./images/bg-landing.jpg);

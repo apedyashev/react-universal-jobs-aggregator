@@ -2,12 +2,14 @@ import {combineReducers} from 'redux';
 import {fork} from 'redux-saga/effects';
 import {reducer as jobs} from './Jobs';
 import {reducer as user} from './user';
+import {reducer as subscriptions} from './subscriptions';
 import {reducer as auth, sagas as authSagas} from './auth';
 
 const appReducer = combineReducers({
   auth,
   jobs,
   user,
+  subscriptions,
 });
 
 export const rootReducer = (state, action) => {
